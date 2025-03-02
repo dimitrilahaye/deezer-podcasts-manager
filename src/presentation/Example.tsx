@@ -3,12 +3,13 @@ import { useStores } from "../use-stores";
 
 const Example: React.FC = () => {
   // pick specific store and use it
-  const { data, status, fetchData, resetData, retry } = useStores().dataStore;
+  const { data, status, errorMessage, fetchData, resetData, retry } = useStores().dataStore;
 
   return (
     <div>
       <p>Status: {status}</p>
       <p>Data: {data}</p>
+      <p>Error: {errorMessage ?? 'pas d\'erreur'}</p>
       <button type="button" onClick={fetchData}>
         {status === "loading" ? "loading" : "Fetch Data"}
       </button>

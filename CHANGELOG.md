@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.5 (2025-03-02)
+
+
+### ✨ Features
+
+* **core:** add router and tests ([f2785f3](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/f2785f3c709e294aea355fc0dff21c81c77c8aa2))
+
 ## 0.0.4 (2025-03-02)
 
 

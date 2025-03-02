@@ -29,12 +29,12 @@ describe("Example Component", () => {
     );
   });
 
-  it("doit afficher le statut initial 'idle'", () => {
+  it("should display initial status 'idle'", () => {
     // Given
     expect(screen.getByText(/Status: idle/i)).toBeInTheDocument();
   });
 
-  it("doit changer de statut et afficher la donnée après fetchData", async () => {
+  it("should change status and display the data from fetch", async () => {
     // Given
     mockApiService.fetchData.resolves("Fake Data");
 
@@ -47,7 +47,7 @@ describe("Example Component", () => {
     expect(screen.getByText(/Status: success/i)).toBeInTheDocument();
   });
 
-  it("doit afficher une erreur en cas d'échec", async () => {
+  it("should display error in case of failure", async () => {
     // Given
     mockApiService.fetchData.rejects(new Error("Erreur réseau"));
 
@@ -59,7 +59,7 @@ describe("Example Component", () => {
     expect(screen.getByText(/Error: Erreur réseau/i)).toBeInTheDocument();
   });
 
-  it("doit réinitialiser les données après Reset", async () => {
+  it("should reinitialize the data on Reset", async () => {
     // Given
     mockApiService.fetchData.resolves("Fake Data");
 

@@ -1,5 +1,5 @@
 import { createActor } from "xstate";
-import { createDataMachine } from "../../core/state-machines/data-machine";
+import { createDataMachine } from "../../../core/data/state-machine";
 import sinon from "sinon";
 
 describe("Data Machine", () => {
@@ -11,16 +11,22 @@ describe("Data Machine", () => {
   });
 
   it("should transition to loading and then to success when data is fetched", async () => {
+    // Given
     fetchDataSpy.resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
     const dataMachine = createDataMachine(mockApiService);
+
+    // When
     const service = createActor(dataMachine).start();
 
+    // Then
     expect(service.getSnapshot().value).toBe("idle");
 
+    // When
     service.send({ type: "FETCH" });
 
+    // Then
     expect(service.getSnapshot().value).toBe("loading");
 
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -33,16 +39,17 @@ describe("Data Machine", () => {
   });
 
   it("should transition to error if the fetch fails", async () => {
+    // Given
     fetchDataSpy.rejects(new Error("Fetch failed"));
 
     const mockApiService = { fetchData: fetchDataSpy };
     const dataMachine = createDataMachine(mockApiService);
     const service = createActor(dataMachine).start();
 
-    expect(service.getSnapshot().value).toBe("idle");
-
+    // When
     service.send({ type: "FETCH" });
 
+    // Then
     expect(service.getSnapshot().value).toBe("loading");
 
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -54,20 +61,25 @@ describe("Data Machine", () => {
   });
 
   it("should reset to idle when RESET is sent", async () => {
+    // Given
     fetchDataSpy.resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
     const dataMachine = createDataMachine(mockApiService);
     const service = createActor(dataMachine).start();
 
+    // When
     service.send({ type: "FETCH" });
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
+    // Then
     expect(service.getSnapshot().value).toBe("success");
 
+    // When
     service.send({ type: "RESET" });
 
+    // Then
     expect(service.getSnapshot().value).toBe("idle");
     expect(service.getSnapshot().context.data).toBe("");
     expect(service.getSnapshot().context.errorMessage).toBeNull();
@@ -76,15 +88,17 @@ describe("Data Machine", () => {
   });
 
   it("should reset data to an empty string when RESET is sent in error state", async () => {
+    // Given
     fetchDataSpy.rejects(new Error("Fetch failed"));
 
     const mockApiService = { fetchData: fetchDataSpy };
     const dataMachine = createDataMachine(mockApiService);
     const service = createActor(dataMachine).start();
 
-    expect(service.getSnapshot().value).toBe("idle");
-
+    // When
     service.send({ type: "FETCH" });
+
+    // Then
     expect(service.getSnapshot().value).toBe("loading");
 
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -92,8 +106,10 @@ describe("Data Machine", () => {
     expect(service.getSnapshot().value).toBe("error");
     expect(service.getSnapshot().context.errorMessage).toBe("Fetch failed");
 
+    // When
     service.send({ type: "RESET" });
 
+    // Then
     expect(service.getSnapshot().value).toBe("idle");
     expect(service.getSnapshot().context.errorMessage).toBeNull();
     expect(service.getSnapshot().context.data).toBe("");
@@ -102,15 +118,21 @@ describe("Data Machine", () => {
   });
 
   it("should call fetchData twice and update data correctly", async () => {
-    fetchDataSpy.onFirstCall().rejects(new Error("Fetch failed")).onSecondCall().resolves("Some data");
+    // Given
+    fetchDataSpy
+      .onFirstCall()
+      .rejects(new Error("Fetch failed"))
+      .onSecondCall()
+      .resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
     const dataMachine = createDataMachine(mockApiService);
     const service = createActor(dataMachine).start();
 
-    expect(service.getSnapshot().value).toBe("idle");
-
+    // When
     service.send({ type: "FETCH" });
+
+    // Then
     expect(service.getSnapshot().value).toBe("loading");
 
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -118,7 +140,10 @@ describe("Data Machine", () => {
     expect(service.getSnapshot().value).toBe("error");
     expect(service.getSnapshot().context.errorMessage).toBe("Fetch failed");
 
+    // When
     service.send({ type: "RETRY" });
+
+    // Then
     expect(service.getSnapshot().value).toBe("loading");
 
     await new Promise((resolve) => setTimeout(resolve, 100));

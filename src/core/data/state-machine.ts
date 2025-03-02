@@ -1,22 +1,28 @@
 import { assign, setup, fromPromise } from "xstate";
 import type { ApiService } from "../ports/api-service";
 
+export type Dependencies = {
+  apiService: ApiService;
+};
+
 interface Context {
   data: string;
   errorMessage: string | null;
-  apiService: ApiService;
+  dependencies: Dependencies;
 }
 
 type Events = { type: "FETCH" } | { type: "RESET" } | { type: "RETRY" };
 
-export const createDataMachine = (apiService: ApiService) =>
+const createDataMachine = (dependencies: Dependencies) =>
   setup({
     types: {} as {
       context: Context;
       events: Events;
     },
     actors: {
-      fetchData: fromPromise(async () => await apiService.fetchData()),
+      fetchData: fromPromise(
+        async () => await dependencies.apiService.fetchData()
+      ),
     },
   }).createMachine({
     id: "dataMachine",
@@ -24,7 +30,7 @@ export const createDataMachine = (apiService: ApiService) =>
     context: {
       data: "",
       errorMessage: null,
-      apiService,
+      dependencies,
     },
     states: {
       idle: {
@@ -54,22 +60,44 @@ export const createDataMachine = (apiService: ApiService) =>
             target: "idle",
             actions: assign(() => ({
               data: "",
-              errorMessage: null
+              errorMessage: null,
+            })),
+          },
+          RETRY: {
+            target: "loading",
+            actions: assign(() => ({
+              data: "",
+              errorMessage: null,
+            })),
+          },
+          FETCH: {
+            target: "loading",
+            actions: assign(() => ({
+              data: "",
+              errorMessage: null,
             })),
           },
         },
       },
       error: {
         on: {
-          RETRY: "loading",
+          RETRY: {
+            target: "loading",
+            actions: assign(() => ({
+              data: "",
+              errorMessage: null,
+            })),
+          },
           RESET: {
             target: "idle",
             actions: assign(() => ({
               data: "",
-              errorMessage: null
+              errorMessage: null,
             })),
           },
         },
       },
     },
   });
+
+export default createDataMachine;

@@ -1,5 +1,5 @@
 import { createActor } from "xstate";
-import { createDataMachine } from "../../../core/data/state-machine";
+import createDataMachine from "../../../core/data/state-machine";
 import sinon from "sinon";
 
 describe("Data Machine", () => {
@@ -15,7 +15,7 @@ describe("Data Machine", () => {
     fetchDataSpy.resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
-    const dataMachine = createDataMachine(mockApiService);
+    const dataMachine = createDataMachine({ apiService: mockApiService });
 
     // When
     const service = createActor(dataMachine).start();
@@ -35,7 +35,19 @@ describe("Data Machine", () => {
     expect(service.getSnapshot().context.data).toBe("Some data");
     expect(service.getSnapshot().context.errorMessage).toBeNull();
 
-    expect(fetchDataSpy.callCount).toBe(1);
+    // When
+    service.send({ type: "FETCH" });
+
+    // Then
+    expect(service.getSnapshot().value).toBe("loading");
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(service.getSnapshot().value).toBe("success");
+    expect(service.getSnapshot().context.data).toBe("Some data");
+    expect(service.getSnapshot().context.errorMessage).toBeNull();
+
+    expect(fetchDataSpy.callCount).toBe(2);
   });
 
   it("should transition to error if the fetch fails", async () => {
@@ -43,7 +55,7 @@ describe("Data Machine", () => {
     fetchDataSpy.rejects(new Error("Fetch failed"));
 
     const mockApiService = { fetchData: fetchDataSpy };
-    const dataMachine = createDataMachine(mockApiService);
+    const dataMachine = createDataMachine({ apiService: mockApiService });
     const service = createActor(dataMachine).start();
 
     // When
@@ -65,7 +77,7 @@ describe("Data Machine", () => {
     fetchDataSpy.resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
-    const dataMachine = createDataMachine(mockApiService);
+    const dataMachine = createDataMachine({ apiService: mockApiService });
     const service = createActor(dataMachine).start();
 
     // When
@@ -92,7 +104,7 @@ describe("Data Machine", () => {
     fetchDataSpy.rejects(new Error("Fetch failed"));
 
     const mockApiService = { fetchData: fetchDataSpy };
-    const dataMachine = createDataMachine(mockApiService);
+    const dataMachine = createDataMachine({ apiService: mockApiService });
     const service = createActor(dataMachine).start();
 
     // When
@@ -126,7 +138,7 @@ describe("Data Machine", () => {
       .resolves("Some data");
 
     const mockApiService = { fetchData: fetchDataSpy };
-    const dataMachine = createDataMachine(mockApiService);
+    const dataMachine = createDataMachine({ apiService: mockApiService });
     const service = createActor(dataMachine).start();
 
     // When

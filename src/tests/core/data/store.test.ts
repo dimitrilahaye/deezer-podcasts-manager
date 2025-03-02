@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import { createDataStore } from "../../../core/data/store";
+import createDataStore from "../../../core/data/store";
 
 describe("Data Store", () => {
   let fetchDataSpy: sinon.SinonStub;
@@ -12,7 +12,7 @@ describe("Data Store", () => {
   it("should initialize the store with idle status", () => {
     // Given
     const mockApiService = { fetchData: fetchDataSpy };
-    const useStore = createDataStore(mockApiService);
+    const useStore = createDataStore({ apiService: mockApiService });
 
     // When
     const { data, errorMessage, status } = useStore.getState();
@@ -28,7 +28,7 @@ describe("Data Store", () => {
     const mockApiService = { fetchData: fetchDataSpy };
     mockApiService.fetchData.resolves("Some data");
 
-    const useStore = createDataStore(mockApiService);
+    const useStore = createDataStore({ apiService: mockApiService });
 
     // When
     useStore.getState().fetchData();
@@ -48,7 +48,7 @@ describe("Data Store", () => {
     const mockApiService = { fetchData: fetchDataSpy };
     mockApiService.fetchData.rejects(new Error("Fetch failed"));
 
-    const useStore = createDataStore(mockApiService);
+    const useStore = createDataStore({ apiService: mockApiService });
 
     // When
     useStore.getState().fetchData();
@@ -68,7 +68,7 @@ describe("Data Store", () => {
     const mockApiService = { fetchData: fetchDataSpy };
     mockApiService.fetchData.resolves("Some data");
 
-    const useStore = createDataStore(mockApiService);
+    const useStore = createDataStore({ apiService: mockApiService });
 
     // When
     useStore.getState().fetchData();
@@ -97,7 +97,7 @@ describe("Data Store", () => {
 
     const mockApiService = { fetchData: fetchDataSpy };
 
-    const useStore = createDataStore(mockApiService);
+    const useStore = createDataStore({ apiService: mockApiService });
 
     // When
     useStore.getState().fetchData();

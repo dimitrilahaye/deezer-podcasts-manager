@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { createActor } from "xstate";
-import type { ApiService } from "../ports/api-service";
-import { createDataMachine } from "./state-machine";
+import createDataMachine, { type Dependencies } from "./state-machine";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-interface StoreState {
+export interface DataStoreState {
   data: string;
   errorMessage: string | null;
   status: Status;
@@ -14,16 +13,16 @@ interface StoreState {
   retry: () => void;
 }
 
-export const createDataStore = (apiService: ApiService) => {
-  const dataMachine = createDataMachine(apiService);
+const createDataStore = (dependencies: Dependencies) => {
+  const dataMachine = createDataMachine(dependencies);
   const service = createActor(dataMachine);
 
-  return create<StoreState>((set) => {
+  return create<DataStoreState>((set) => {
     service.subscribe((state) => {
       set({
         data: state.context.data,
         errorMessage: state.context.errorMessage,
-        status: state.value as Status
+        status: state.value as Status,
       });
     });
 
@@ -39,3 +38,5 @@ export const createDataStore = (apiService: ApiService) => {
     };
   });
 };
+
+export default createDataStore;

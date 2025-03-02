@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.3 (2025-03-02)
+
+
+### ✨ Features
+
+* **core:** add example store + tests ([bef9729](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/bef972999557ae6981713b3c2a007de529665116))
+
 ## 0.0.2 (2025-03-02)
 
 

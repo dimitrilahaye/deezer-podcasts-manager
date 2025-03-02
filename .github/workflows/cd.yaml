@@ -1,0 +1,38 @@
+name: 🎧 Deezer Podcasts Manager » CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  checks:
+    name: 💎 Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ↪️ Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 💚 Use Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: 📦 Install
+      run: npm install
+
+    - name: 💄 Lint
+      run: npm run lint
+
+    - name: 🧪 Tests
+      run: npm run test
+
+    - name: 🧑‍🧑‍🧒 Configure Git identity
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: 🔝 Bump version and generate changelog
+      run: |
+        npm run release
+        git push --follow-tags origin main

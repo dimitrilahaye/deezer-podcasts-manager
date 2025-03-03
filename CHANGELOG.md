@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.9 (2025-03-03)
+
+
+### 📦 Refactor
+
+* **core:** separate stores and react context ([c3c02c8](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/c3c02c8931e574705511a1bbffbeeb9c9aa5052c))
+
 ## 0.0.8 (2025-03-03)
 
 

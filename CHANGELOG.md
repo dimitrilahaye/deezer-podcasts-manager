@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.6 (2025-03-03)
+
+
+### 🛠️ Maintenance
+
+* **git:** add todo file to gitinore ([d0fa1a4](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/d0fa1a4ebf6dfff5d8dc25942c76f7ae06310c4c))
+
 ## 0.0.5 (2025-03-02)
 
 

@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { createActor } from "xstate";
-import createDataMachine, { type Dependencies } from "./state-machine";
-
-type Status = "idle" | "loading" | "success" | "error";
+import createDataMachine, {
+  type Status,
+  type Dependencies,
+} from "./state-machine";
 
 export interface DataStoreState {
   data: string;

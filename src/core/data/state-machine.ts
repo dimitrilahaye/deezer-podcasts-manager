@@ -13,6 +13,8 @@ interface Context {
 
 type Events = { type: "FETCH" } | { type: "RESET" } | { type: "RETRY" };
 
+export type Status = "idle" | "loading" | "success" | "error";
+
 const createDataMachine = (dependencies: Dependencies) =>
   setup({
     types: {} as {

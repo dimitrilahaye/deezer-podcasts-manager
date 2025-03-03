@@ -4,7 +4,7 @@ import { StoresProvider } from "../../stores-provider";
 import Example from "../../presentation/Example";
 import createDataStore from "../../core/data/store";
 import type { Dependencies } from "../../core/data/state-machine";
-import type { Stores } from "../../use-stores";
+import type { Stores } from "../../core/stores";
 
 describe("Example Component", () => {
   const mockApiService = {

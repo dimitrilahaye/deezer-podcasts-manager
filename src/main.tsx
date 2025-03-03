@@ -1,8 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { StoresProvider } from "./stores-provider";
-import { stores } from "./use-stores";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { stores } from "./core/stores";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

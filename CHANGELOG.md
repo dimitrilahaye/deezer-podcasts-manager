@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.8 (2025-03-03)
+
+
+### 📦 Refactor
+
+* **core:** move Status type to state machine ([edf40cd](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/edf40cdb0ba17250558f72e93612406c74b7a7b8))
+
 ## 0.0.7 (2025-03-03)
 
 

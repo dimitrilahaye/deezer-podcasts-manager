@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.10 (2025-03-03)
+
+
+### 📦 Refactor
+
+* **core:** improve store / state machine DX with types ([7b8f8b0](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/7b8f8b0bd54740e2852a418f631a3db5e8e6c7f8))
+
 ## 0.0.9 (2025-03-03)
 
 

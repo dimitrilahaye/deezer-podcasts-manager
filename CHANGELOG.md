@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.7 (2025-03-03)
+
+
+### ✨ Features
+
+* **core:** enforce dependency inversion ([3967800](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/3967800ba61094ac3c39694c1abb19df5bca997d))
+
 ## 0.0.6 (2025-03-03)
 
 

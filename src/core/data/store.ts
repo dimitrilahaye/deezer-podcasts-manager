@@ -1,18 +1,21 @@
 import { create } from "zustand";
 import { createActor } from "xstate";
 import createDataMachine, {
-  type Status,
+  type DataStateMachineStates,
   type Dependencies,
+  type DataStateMachineContext,
 } from "./state-machine";
+import type { StoreStateFromStateMachineContext } from "../types";
 
-export interface DataStoreState {
-  data: string;
-  errorMessage: string | null;
-  status: Status;
-  fetchData: () => void;
-  resetData: () => void;
-  retry: () => void;
-}
+export type DataStoreState = StoreStateFromStateMachineContext<
+  DataStateMachineStates,
+  DataStateMachineContext,
+  {
+    fetchData: () => void;
+    resetData: () => void;
+    retry: () => void;
+  }
+>;
 
 const createDataStore = (dependencies: Dependencies) => {
   const dataMachine = createDataMachine(dependencies);
@@ -23,7 +26,7 @@ const createDataStore = (dependencies: Dependencies) => {
       set({
         data: state.context.data,
         errorMessage: state.context.errorMessage,
-        status: state.value as Status,
+        status: state.value as DataStateMachineStates,
       });
     });
 

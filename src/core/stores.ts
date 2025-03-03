@@ -1,9 +1,6 @@
-import type { UseBoundStore, StoreApi } from "zustand";
 import { DataService } from "../providers/data-service/DataService";
 import createDataStore, { type DataStoreState } from "./data/store";
-
-// for DX
-type DpmStore<T> = UseBoundStore<StoreApi<T>>;
+import type { DpmStore } from "./types";
 
 export type Stores = {
   dataStore: DpmStore<DataStoreState>;

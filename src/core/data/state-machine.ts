@@ -1,25 +1,31 @@
 import { assign, setup, fromPromise } from "xstate";
 import type { ApiService } from "../ports/api-service";
+import type { StateMachineContext } from "../types";
 
 export type Dependencies = {
   apiService: ApiService;
 };
 
-interface Context {
-  data: string;
-  errorMessage: string | null;
-  dependencies: Dependencies;
-}
+export type DataStateMachineContext = StateMachineContext<
+  {
+    data: string;
+    errorMessage: string | null;
+  },
+  Dependencies
+>;
 
-type Events = { type: "FETCH" } | { type: "RESET" } | { type: "RETRY" };
+type DataStateMachineEvents =
+  | { type: "FETCH" }
+  | { type: "RESET" }
+  | { type: "RETRY" };
 
-export type Status = "idle" | "loading" | "success" | "error";
+export type DataStateMachineStates = "idle" | "loading" | "success" | "error";
 
 const createDataMachine = (dependencies: Dependencies) =>
   setup({
     types: {} as {
-      context: Context;
-      events: Events;
+      context: DataStateMachineContext;
+      events: DataStateMachineEvents;
     },
     actors: {
       fetchData: fromPromise(

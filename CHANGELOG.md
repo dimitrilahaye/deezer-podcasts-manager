@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.14 (2025-03-04)
+
+
+### ✨ Features
+
+* **core:** add toggle from favorites states ([e0b2c4a](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/e0b2c4a66b9b3b2ac77ff8885e9f2c74ef3157f2))
+
 ## 0.0.13 (2025-03-04)
 
 

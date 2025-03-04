@@ -1,6 +1,7 @@
 import { assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
 import type PodcastsService from "../ports/podcasts-service";
 import type { StateMachineContext } from "../types";
+import type { Podcasts } from "../models/podcast";
 
 export type Dependencies = {
   podcastsService: PodcastsService;
@@ -10,7 +11,7 @@ export type States = "idle" | "loading" | "success";
 
 export type Context = StateMachineContext<
   {
-    podcasts: string | null;
+    podcasts: Podcasts;
     error: string | null;
   },
   Dependencies
@@ -25,26 +26,26 @@ const createStateMachine = (dependencies: Dependencies) =>
       events: Events;
     },
     actions: {
-      updatePodcasts: assign((_, params: string) => ({
+      updatePodcasts: assign((_, params: Podcasts) => ({
         podcasts: params,
       })),
       updateError: assign((_, params: string) => ({
         error: params,
       })),
       reset: assign(() => ({
-        podcasts: null,
+        podcasts: [],
         error: null,
       })),
     },
     actors: {
-      searchPodcasts: fromPromise<string, string>(
+      searchPodcasts: fromPromise<Podcasts, string>(
         async ({ input }) => await dependencies.podcastsService.search(input)
       ),
     },
   }).createMachine({
     id: "searchPodcastsStateMachine",
     context: {
-      podcasts: null,
+      podcasts: [],
       error: null,
       dependencies,
     },

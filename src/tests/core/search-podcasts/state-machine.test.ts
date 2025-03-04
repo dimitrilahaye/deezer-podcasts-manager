@@ -2,6 +2,7 @@ import { createActor } from "xstate";
 import createStateMachine from "../../../core/search-podcasts/state-machine";
 import sinon from "sinon";
 import { sleep } from "../../utils";
+import type { Podcasts } from "../../../core/models/podcast";
 
 function dependencies(stubs: { search: sinon.SinonStub }) {
   return {
@@ -94,10 +95,19 @@ describe("Search podcasts state machine", () => {
 
   it("should store the service response on success state", async () => {
     // Given
+    const foundPodcasts = [
+      {
+        id: 1,
+        title: "title",
+        description: "description",
+        available: true,
+        picture: "picture",
+      },
+    ];
     const actor = createActor(
       createStateMachine(
         dependencies({
-          search: searchPodcastsStub.resolves("podcasts"),
+          search: searchPodcastsStub.resolves(foundPodcasts),
         })
       )
     );
@@ -109,7 +119,7 @@ describe("Search podcasts state machine", () => {
     await sleep(100);
 
     // Then
-    expect(actor.getSnapshot().context.podcasts).toEqual("podcasts");
+    expect(actor.getSnapshot().context.podcasts).toEqual(foundPodcasts);
   });
 
   it("should have state error if service throw an error", async () => {
@@ -153,11 +163,11 @@ describe("Search podcasts state machine", () => {
   });
 
   describe("on success state", () => {
-    function getActorOnSuccess(stub: sinon.SinonStub) {
+    function getActorOnSuccess(stub: sinon.SinonStub, podcasts: Podcasts) {
       const actor = createActor(
         createStateMachine(
           dependencies({
-            search: stub.resolves("podcasts"),
+            search: stub.resolves(podcasts),
           })
         )
       );
@@ -169,7 +179,16 @@ describe("Search podcasts state machine", () => {
 
     it("should restore context on reset", async () => {
       // Given
-      const actor = getActorOnSuccess(searchPodcastsStub);
+      const foundPodcasts = [
+        {
+          id: 1,
+          title: "title",
+          description: "description",
+          available: true,
+          picture: "picture",
+        },
+      ];
+      const actor = getActorOnSuccess(searchPodcastsStub, foundPodcasts);
 
       await sleep(100);
 
@@ -179,13 +198,22 @@ describe("Search podcasts state machine", () => {
       await sleep(100);
 
       // Then
-      expect(actor.getSnapshot().context.podcasts).toBeNull();
+      expect(actor.getSnapshot().context.podcasts).toEqual([]);
       expect(actor.getSnapshot().context.error).toBeNull();
     });
 
     it("should be on idle state after reset", async () => {
       // Given
-      const actor = getActorOnSuccess(searchPodcastsStub);
+      const foundPodcasts = [
+        {
+          id: 1,
+          title: "title",
+          description: "description",
+          available: true,
+          picture: "picture",
+        },
+      ];
+      const actor = getActorOnSuccess(searchPodcastsStub, foundPodcasts);
 
       await sleep(100);
 
@@ -200,14 +228,23 @@ describe("Search podcasts state machine", () => {
 
     it("should store the service response on retry", async () => {
       // Given
+      const foundPodcasts = [
+        {
+          id: 1,
+          title: "title",
+          description: "description",
+          available: true,
+          picture: "picture",
+        },
+      ];
       const actor = createActor(
         createStateMachine(
           dependencies({
             search: searchPodcastsStub
               .onFirstCall()
-              .resolves("podcasts")
+              .resolves(["podcasts"])
               .onSecondCall()
-              .resolves("Podkassos"),
+              .resolves(foundPodcasts),
           })
         )
       );
@@ -222,7 +259,7 @@ describe("Search podcasts state machine", () => {
 
       // Then
       expect(searchPodcastsStub.calledTwice).toBe(true);
-      expect(actor.getSnapshot().context.podcasts).toEqual("Podkassos");
+      expect(actor.getSnapshot().context.podcasts).toEqual(foundPodcasts);
     });
   });
 
@@ -253,7 +290,7 @@ describe("Search podcasts state machine", () => {
       await sleep(100);
 
       // Then
-      expect(actor.getSnapshot().context.podcasts).toBeNull();
+      expect(actor.getSnapshot().context.podcasts).toEqual([]);
       expect(actor.getSnapshot().context.error).toBeNull();
     });
 
@@ -274,14 +311,23 @@ describe("Search podcasts state machine", () => {
 
     it("should store the service response on retry", async () => {
       // Given
+      const foundPodcasts = [
+        {
+          id: 1,
+          title: "title",
+          description: "description",
+          available: true,
+          picture: "picture",
+        },
+      ];
       const actor = createActor(
         createStateMachine(
           dependencies({
             search: searchPodcastsStub
               .onFirstCall()
-              .resolves("podcasts")
+              .resolves(["podcasts"])
               .onSecondCall()
-              .resolves("Podkassos"),
+              .resolves(foundPodcasts),
           })
         )
       );
@@ -296,7 +342,7 @@ describe("Search podcasts state machine", () => {
 
       // Then
       expect(searchPodcastsStub.calledTwice).toBe(true);
-      expect(actor.getSnapshot().context.podcasts).toEqual("Podkassos");
+      expect(actor.getSnapshot().context.podcasts).toEqual(foundPodcasts);
     });
   });
 });

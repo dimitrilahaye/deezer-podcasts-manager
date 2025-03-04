@@ -1,4 +1,4 @@
-import { fromPromise, setup } from "xstate";
+import { assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
 import type PodcastsService from "../ports/podcasts-service";
 import type { StateMachineContext } from "../types";
 
@@ -8,15 +8,33 @@ export type Dependencies = {
 
 export type States = "idle" | "loading" | "success";
 
-export type Context = StateMachineContext<unknown, Dependencies>;
+export type Context = StateMachineContext<
+  {
+    podcasts: string | null;
+    error: string | null;
+  },
+  Dependencies
+>;
 
-type Events = { type: "SEARCH"; query: string };
+export type Events = { type: "SEARCH"; query: string } | { type: "RESET" };
 
 const createStateMachine = (dependencies: Dependencies) =>
   setup({
     types: {} as {
       context: Context;
       events: Events;
+    },
+    actions: {
+      updatePodcasts: assign((_, params: string) => ({
+        podcasts: params,
+      })),
+      updateError: assign((_, params: string) => ({
+        error: params,
+      })),
+      reset: assign(() => ({
+        podcasts: null,
+        error: null,
+      })),
     },
     actors: {
       searchPodcasts: fromPromise<string, string>(
@@ -26,6 +44,8 @@ const createStateMachine = (dependencies: Dependencies) =>
   }).createMachine({
     id: "searchPodcastsStateMachine",
     context: {
+      podcasts: null,
+      error: null,
       dependencies,
     },
     initial: "idle",
@@ -36,11 +56,51 @@ const createStateMachine = (dependencies: Dependencies) =>
       loading: {
         invoke: {
           src: "searchPodcasts",
-          input: ({ event }) => event.query,
-          onDone: "success",
+          input: ({ event }) => {
+            if (event.type === "SEARCH") {
+              return event.query;
+            }
+            return event.type;
+          },
+          onDone: {
+            target: "success",
+            actions: {
+              type: "updatePodcasts",
+              params: ({ event }) => event.output,
+            },
+          },
+          onError: {
+            target: "error",
+            actions: {
+              type: "updateError",
+              params: ({ event }) =>
+                (event as ErrorActorEvent<Error>).error.message,
+            },
+          },
         },
       },
-      success: {},
+      success: {
+        on: {
+          RESET: {
+            target: "idle",
+            actions: {
+              type: "reset",
+            },
+          },
+          SEARCH: "loading",
+        },
+      },
+      error: {
+        on: {
+          RESET: {
+            target: "idle",
+            actions: {
+              type: "reset",
+            },
+          },
+          SEARCH: "loading",
+        },
+      },
     },
   });
 

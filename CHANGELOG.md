@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.13 (2025-03-04)
+
+
+### ✨ Features
+
+* **core:** add real podcast model ([c04a23f](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/c04a23fdc174123f0aabe547b52011ae8b453e11))
+
 ## 0.0.12 (2025-03-04)
 
 

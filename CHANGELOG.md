@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.11 (2025-03-04)
+
+
+### ✨ Features
+
+* **core:** search-podcasts state machine ([4f7bd12](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/4f7bd128ad636058c7ef94a7ec4a53be2db2fe7f))
+
 ## 0.0.10 (2025-03-03)
 
 

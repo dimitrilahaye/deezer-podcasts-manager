@@ -1,13 +1,20 @@
 import { assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
 import type PodcastsService from "../ports/podcasts-service";
 import type { StateMachineContext } from "../types";
-import type { Podcasts } from "../models/podcast";
+import type { Podcast, Podcasts } from "../models/podcast";
+import type PodcastRepository from "../ports/podcast-repository";
 
 export type Dependencies = {
   podcastsService: PodcastsService;
+  podcastRepository: PodcastRepository;
 };
 
-export type States = "idle" | "loading" | "success";
+export type States =
+  | "idle"
+  | "podcasts_loading"
+  | "toggle_favorite_loading"
+  | "success"
+  | "error";
 
 export type Context = StateMachineContext<
   {
@@ -17,7 +24,10 @@ export type Context = StateMachineContext<
   Dependencies
 >;
 
-export type Events = { type: "SEARCH"; query: string } | { type: "RESET" };
+export type Events =
+  | { type: "SEARCH"; query: string }
+  | { type: "RESET" }
+  | { type: "TOGGLE"; podcastId: number };
 
 const createStateMachine = (dependencies: Dependencies) =>
   setup({
@@ -28,6 +38,9 @@ const createStateMachine = (dependencies: Dependencies) =>
     actions: {
       updatePodcasts: assign((_, params: Podcasts) => ({
         podcasts: params,
+      })),
+      updatePodcast: assign(({ context }, params: Podcast) => ({
+        podcasts: [...context.podcasts.filter((podcast) => podcast.id !== params.id), params],
       })),
       updateError: assign((_, params: string) => ({
         error: params,
@@ -41,6 +54,10 @@ const createStateMachine = (dependencies: Dependencies) =>
       searchPodcasts: fromPromise<Podcasts, string>(
         async ({ input }) => await dependencies.podcastsService.search(input)
       ),
+      toggleFromFavorites: fromPromise<Podcast, number>(
+        async ({ input }) =>
+          await dependencies.podcastRepository.toggleFromFavorites(input)
+      ),
     },
   }).createMachine({
     id: "searchPodcastsStateMachine",
@@ -52,21 +69,47 @@ const createStateMachine = (dependencies: Dependencies) =>
     initial: "idle",
     states: {
       idle: {
-        on: { SEARCH: "loading" },
+        on: { SEARCH: "podcasts_loading", TOGGLE: "toggle_favorite_loading" },
       },
-      loading: {
+      podcasts_loading: {
         invoke: {
           src: "searchPodcasts",
           input: ({ event }) => {
             if (event.type === "SEARCH") {
               return event.query;
             }
-            return event.type;
+            return '';
           },
           onDone: {
             target: "success",
             actions: {
               type: "updatePodcasts",
+              params: ({ event }) => event.output,
+            },
+          },
+          onError: {
+            target: "error",
+            actions: {
+              type: "updateError",
+              params: ({ event }) =>
+                (event as ErrorActorEvent<Error>).error.message,
+            },
+          },
+        },
+      },
+      toggle_favorite_loading: {
+        invoke: {
+          src: "toggleFromFavorites",
+          input: ({ event }) => {
+            if (event.type === "TOGGLE") {
+              return event.podcastId;
+            }
+            return 0
+          },
+          onDone: {
+            target: "success",
+            actions: {
+              type: "updatePodcast",
               params: ({ event }) => event.output,
             },
           },
@@ -88,7 +131,8 @@ const createStateMachine = (dependencies: Dependencies) =>
               type: "reset",
             },
           },
-          SEARCH: "loading",
+          SEARCH: "podcasts_loading",
+          TOGGLE: "toggle_favorite_loading",
         },
       },
       error: {
@@ -99,7 +143,8 @@ const createStateMachine = (dependencies: Dependencies) =>
               type: "reset",
             },
           },
-          SEARCH: "loading",
+          SEARCH: "podcasts_loading",
+          TOGGLE: "toggle_favorite_loading",
         },
       },
     },

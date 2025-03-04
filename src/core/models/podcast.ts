@@ -4,6 +4,7 @@ export interface Podcast {
   description: string;
   available: boolean;
   picture: string;
+  isFavorite?: boolean
 }
 
 export type Podcasts = Podcast[];

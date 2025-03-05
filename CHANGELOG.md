@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.16 (2025-03-05)
+
+
+### ✨ Features
+
+* **core:** add search podcasts store ([ad0cecb](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/ad0cecbaaf938746683911e27b75a8cc93f4e4b9))
+
 ## 0.0.15 (2025-03-05)
 
 

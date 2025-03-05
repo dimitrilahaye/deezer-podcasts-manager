@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.15 (2025-03-05)
+
+
+### ✨ Features
+
+* **core:** pass the whole podcast as argument on toggle ([2ae4513](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/2ae4513065335979a55de34846e5dce94b9a01de))
+
 ## 0.0.14 (2025-03-04)
 
 

@@ -8,7 +8,7 @@ import createStateMachine, {
 import type { StoreStateFromStateMachineContext } from "../types";
 import type { Podcast } from "../models/podcast";
 
-export type DataStoreState = StoreStateFromStateMachineContext<
+export type StoreState = StoreStateFromStateMachineContext<
   States,
   Context,
   {
@@ -22,7 +22,7 @@ const createStore = (dependencies: Dependencies) => {
   const dataMachine = createStateMachine(dependencies);
   const service = createActor(dataMachine);
 
-  return create<DataStoreState>((set) => {
+  return create<StoreState>((set) => {
     service.subscribe(({ value, context }) => {
       set({
         podcasts: context.podcasts,

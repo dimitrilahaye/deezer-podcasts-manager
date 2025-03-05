@@ -3,27 +3,28 @@ import sinon from "sinon";
 import { StoresProvider } from "../../stores-provider";
 import Example from "../../presentation/Example";
 import createDataStore from "../../core/data/store";
-import type { Dependencies } from "../../core/data/state-machine";
 import type { Stores } from "../../core/stores";
+import { inMemoryDependencies } from "../../core/dependencies";
 
 describe("Example Component", () => {
   const mockApiService = {
     fetchData: sinon.stub().resolves("Fake Data"),
   };
 
-  let mockStores: Stores;
+  let mockStores: Partial<Stores>;
 
   beforeEach(() => {
     mockApiService.fetchData.resetHistory();
 
     mockStores = {
       dataStore: createDataStore({
+        ...inMemoryDependencies,
         apiService: mockApiService,
-      } as Dependencies),
+      }),
     };
 
     render(
-      <StoresProvider stores={mockStores}>
+      <StoresProvider stores={mockStores as Stores}>
         <Example />
       </StoresProvider>
     );

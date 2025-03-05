@@ -18,6 +18,17 @@ function dependencies(stubs: {
   };
 }
 
+function getFakePodcast(data: { isFavorite: boolean }) {
+  return {
+    id: 1,
+    title: "title",
+    description: "description",
+    available: true,
+    picture: "picture",
+    isFavorite: data.isFavorite,
+  }
+}
+
 describe("Search podcasts state machine", () => {
   let searchPodcastsStub: sinon.SinonStub;
   let toggleFromFavoritesStub: sinon.SinonStub;
@@ -110,14 +121,7 @@ describe("Search podcasts state machine", () => {
     it("should store the service response on success state", async () => {
       // Given
       const foundPodcasts = [
-        {
-          id: 1,
-          title: "title",
-          description: "description",
-          available: true,
-          picture: "picture",
-          isFavorite: false,
-        },
+        getFakePodcast({ isFavorite: false }),
       ];
       const actor = createActor(
         createStateMachine(
@@ -184,14 +188,7 @@ describe("Search podcasts state machine", () => {
       it("should store the service response on retry", async () => {
         // Given
         const foundPodcasts = [
-          {
-            id: 1,
-            title: "title",
-            description: "description",
-            available: true,
-            picture: "picture",
-            isFavorite: false,
-          },
+          getFakePodcast({ isFavorite: false })
         ];
         const actor = createActor(
           createStateMachine(
@@ -224,14 +221,7 @@ describe("Search podcasts state machine", () => {
       it("should store the service response on retry", async () => {
         // Given
         const foundPodcasts = [
-          {
-            id: 1,
-            title: "title",
-            description: "description",
-            available: true,
-            picture: "picture",
-            isFavorite: false,
-          },
+          getFakePodcast({ isFavorite: false })
         ];
         const actor = createActor(
           createStateMachine(
@@ -275,7 +265,9 @@ describe("Search podcasts state machine", () => {
       actor.start();
 
       // When
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
 
       // Then
       expect(actor.getSnapshot().value).toEqual("toggle_favorite_loading");
@@ -294,10 +286,12 @@ describe("Search podcasts state machine", () => {
       actor.start();
 
       // When
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
 
       // Then
-      expect(toggleFromFavoritesStub.calledOnceWith(1)).toBe(true);
+      expect(toggleFromFavoritesStub.calledOnceWith(getFakePodcast({ isFavorite: false }))).toBe(true);
     });
 
     it("should have success state when toggle_favorite_loading is on done", async () => {
@@ -313,7 +307,9 @@ describe("Search podcasts state machine", () => {
       actor.start();
 
       // When
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
       await sleep(100);
 
       // Then
@@ -326,23 +322,9 @@ describe("Search podcasts state machine", () => {
         createStateMachine(
           dependencies({
             search: searchPodcastsStub.resolves([
-              {
-                id: 1,
-                title: "title",
-                description: "description",
-                available: true,
-                picture: "picture",
-                isFavorite: false,
-              },
+              getFakePodcast({ isFavorite: false }),
             ]),
-            toggle: toggleFromFavoritesStub.resolves({
-              id: 1,
-              title: "title",
-              description: "description",
-              available: true,
-              picture: "picture",
-              isFavorite: true,
-            }),
+            toggle: toggleFromFavoritesStub.resolves(getFakePodcast({ isFavorite: true })),
           })
         )
       );
@@ -351,18 +333,13 @@ describe("Search podcasts state machine", () => {
       // When
       actor.send({ type: "SEARCH", query: 'query' });
       await sleep(100);
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
       await sleep(100);
 
       // Then
-      expect(actor.getSnapshot().context.podcasts).toStrictEqual([{
-        id: 1,
-        title: "title",
-        description: "description",
-        available: true,
-        picture: "picture",
-        isFavorite: true,
-      }]);
+      expect(actor.getSnapshot().context.podcasts).toStrictEqual([getFakePodcast({ isFavorite: true })]);
     });
 
     it("should have state error if repository throw an error", async () => {
@@ -377,7 +354,9 @@ describe("Search podcasts state machine", () => {
       actor.start();
 
       // When
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
       await sleep(100);
 
       // Then
@@ -396,7 +375,9 @@ describe("Search podcasts state machine", () => {
       actor.start();
 
       // When
-      actor.send({ type: "TOGGLE", podcastId: 1 });
+      actor.send({
+        type: "TOGGLE", podcast: getFakePodcast({ isFavorite: false })
+      });
       await sleep(100);
 
       // Then
@@ -406,34 +387,17 @@ describe("Search podcasts state machine", () => {
     describe("on success state", () => {
       it("should store the repository response on retry", async () => {
         // Given
-        const foundPodcasts = [
-          {
-            id: 1,
-            title: "title",
-            description: "description",
-            available: true,
-            picture: "picture",
-            isFavorite: false,
-          },
-        ];
+        const foundPodcast = getFakePodcast({ isFavorite: false });
         const actor = createActor(
           createStateMachine(
             dependencies({
               search: searchPodcastsStub
-                .resolves(foundPodcasts),
+                .resolves([foundPodcast]),
               toggle: toggleFromFavoritesStub.onFirstCall().resolves({
-                id: 1,
-                title: "title",
-                description: "description",
-                available: true,
-                picture: "picture",
+                ...foundPodcast,
                 isFavorite: true,
               }).onSecondCall().resolves({
-                id: 1,
-                title: "title",
-                description: "description",
-                available: true,
-                picture: "picture",
+                ...foundPodcast,
                 isFavorite: false,
               }),
             })
@@ -442,53 +406,38 @@ describe("Search podcasts state machine", () => {
         actor.start();
 
         // When
-        actor.send({ type: "TOGGLE", podcastId: 1 });
+        actor.send({ type: "TOGGLE", podcast: foundPodcast });
         await sleep(100);
 
-        actor.send({ type: "TOGGLE", podcastId: 1 });
+        actor.send({
+          type: "TOGGLE", podcast: {
+            ...foundPodcast,
+            isFavorite: true,
+          }
+        });
         await sleep(100);
 
         // Then
         expect(toggleFromFavoritesStub.calledTwice).toBe(true);
-        expect(actor.getSnapshot().context.podcasts).toStrictEqual([{
-          id: 1,
-          title: "title",
-          description: "description",
-          available: true,
-          picture: "picture",
-          isFavorite: false,
-        }]);
+        expect(actor.getSnapshot().context.podcasts).toStrictEqual([getFakePodcast({ isFavorite: false })]);
       });
     });
 
     describe("on error state", () => {
       it("should store the repository response on retry", async () => {
         // Given
-        const foundPodcasts = [
-          {
-            id: 1,
-            title: "title",
-            description: "description",
-            available: true,
-            picture: "picture",
-            isFavorite: false,
-          },
-        ];
+        const foundPodcast = getFakePodcast({ isFavorite: false });
         const actor = createActor(
           createStateMachine(
             dependencies({
               search: searchPodcastsStub
-                .resolves(foundPodcasts),
+                .resolves([foundPodcast]),
               toggle: toggleFromFavoritesStub
                 .onFirstCall()
                 .rejects(new Error('error_message'))
                 .onSecondCall()
                 .resolves({
-                  id: 1,
-                  title: "title",
-                  description: "description",
-                  available: true,
-                  picture: "picture",
+                  ...foundPodcast,
                   isFavorite: true,
                 }),
             })
@@ -497,20 +446,20 @@ describe("Search podcasts state machine", () => {
         actor.start();
 
         // When
-        actor.send({ type: "TOGGLE", podcastId: 1 });
+        actor.send({
+          type: "TOGGLE", podcast: foundPodcast
+        });
         await sleep(100);
 
-        actor.send({ type: "TOGGLE", podcastId: 1 });
+        actor.send({
+          type: "TOGGLE", podcast: foundPodcast
+        });
         await sleep(100);
 
         // Then
         expect(toggleFromFavoritesStub.calledTwice).toBe(true);
         expect(actor.getSnapshot().context.podcasts).toStrictEqual([{
-          id: 1,
-          title: "title",
-          description: "description",
-          available: true,
-          picture: "picture",
+          ...foundPodcast,
           isFavorite: true,
         }]);
       });
@@ -536,14 +485,7 @@ describe("Search podcasts state machine", () => {
     it("should restore context on reset", async () => {
       // Given
       const foundPodcasts = [
-        {
-          id: 1,
-          title: "title",
-          description: "description",
-          available: true,
-          picture: "picture",
-          isFavorite: false,
-        },
+        getFakePodcast({ isFavorite: false }),
       ];
       const actor = getActorOnSuccess(searchPodcastsStub, foundPodcasts);
 
@@ -562,14 +504,7 @@ describe("Search podcasts state machine", () => {
     it("should be on idle state after reset", async () => {
       // Given
       const foundPodcasts = [
-        {
-          id: 1,
-          title: "title",
-          description: "description",
-          available: true,
-          picture: "picture",
-          isFavorite: false,
-        },
+        getFakePodcast({ isFavorite: false }),
       ];
       const actor = getActorOnSuccess(searchPodcastsStub, foundPodcasts);
 

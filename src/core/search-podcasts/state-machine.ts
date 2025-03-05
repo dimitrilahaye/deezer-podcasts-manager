@@ -1,4 +1,4 @@
-import { assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
+import { type AnyEventObject, assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
 import type PodcastsService from "../ports/podcasts-service";
 import type { StateMachineContext } from "../types";
 import type { Podcast, Podcasts } from "../models/podcast";
@@ -27,7 +27,7 @@ export type Context = StateMachineContext<
 export type Events =
   | { type: "SEARCH"; query: string }
   | { type: "RESET" }
-  | { type: "TOGGLE"; podcastId: number };
+  | { type: "TOGGLE"; podcast: Podcast };
 
 const createStateMachine = (dependencies: Dependencies) =>
   setup({
@@ -54,7 +54,7 @@ const createStateMachine = (dependencies: Dependencies) =>
       searchPodcasts: fromPromise<Podcasts, string>(
         async ({ input }) => await dependencies.podcastsService.search(input)
       ),
-      toggleFromFavorites: fromPromise<Podcast, number>(
+      toggleFromFavorites: fromPromise<Podcast, Podcast>(
         async ({ input }) =>
           await dependencies.podcastRepository.toggleFromFavorites(input)
       ),
@@ -75,10 +75,7 @@ const createStateMachine = (dependencies: Dependencies) =>
         invoke: {
           src: "searchPodcasts",
           input: ({ event }) => {
-            if (event.type === "SEARCH") {
-              return event.query;
-            }
-            return '';
+            return (event as AnyEventObject).query;
           },
           onDone: {
             target: "success",
@@ -101,10 +98,7 @@ const createStateMachine = (dependencies: Dependencies) =>
         invoke: {
           src: "toggleFromFavorites",
           input: ({ event }) => {
-            if (event.type === "TOGGLE") {
-              return event.podcastId;
-            }
-            return 0
+            return (event as AnyEventObject).podcast;
           },
           onDone: {
             target: "success",

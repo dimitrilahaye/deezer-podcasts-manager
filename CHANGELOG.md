@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.17 (2025-03-05)
+
+
+### 📦 Refactor
+
+* **core:** rework dependencies ([e8b2dd6](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/e8b2dd69ae09a51aaf9a0d4ab423d6e7af91fdbe))
+
 ## 0.0.16 (2025-03-05)
 
 

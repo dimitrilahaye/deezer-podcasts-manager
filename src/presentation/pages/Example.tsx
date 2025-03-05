@@ -1,5 +1,5 @@
 import type React from "react";
-import useStores from "./hooks/use-stores";
+import useStores from "../hooks/use-stores";
 
 const Example: React.FC = () => {
   // pick specific store and use it

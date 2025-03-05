@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import sinon from "sinon";
 import { StoresProvider } from "../../stores-provider";
-import Example from "../../presentation/Example";
+import Example from "../../presentation/pages/Example";
 import createDataStore from "../../core/data/store";
 import type { Stores } from "../../core/stores";
 import { inMemoryDependencies } from "../../core/dependencies";

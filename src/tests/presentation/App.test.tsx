@@ -1,25 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import App from "../../App";
+import { sleep } from "../utils";
 
 describe("Router", () => {
-  test("Navigate to example page by clicking on link", async () => {
+  test("Navigate to search page by clicking on link", async () => {
     // Given
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    );
+    render(<App />, { wrapper: BrowserRouter });
 
     // Then
-    expect(screen.getByText("Accueil")).toBeInTheDocument();
+    expect(window.location.pathname).toBe("/");
 
     // When
-    const exampleLink = screen.getByRole("link", { name: /Un exemple/i });
-    await userEvent.click(exampleLink);
+    const searchLink = screen.getByRole("link", {
+      name: /Rechercher des podcasts/i,
+    });
+    await userEvent.click(searchLink);
+    await sleep(100);
 
     // Then
-    expect(screen.getByText(/idle/i)).toBeInTheDocument();
+    expect(window.location.pathname).toBe("/search");
   });
 });

@@ -10,6 +10,9 @@ const Navbar = () => {
         <li>
           <Link to="/example">Un exemple</Link>
         </li>
+        <li>
+          <Link to="/search">Rechercher des podcasts</Link>
+        </li>
       </ul>
     </nav>
   );

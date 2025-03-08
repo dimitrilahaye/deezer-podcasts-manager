@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.20 (2025-03-08)
+
+
+### ✨ Features
+
+* **presentation:** add real Deezer API to project ([4820725](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/482072595467e44eb48b06154131c36da7202eff))
+
 ## 0.0.19 (2025-03-08)
 
 

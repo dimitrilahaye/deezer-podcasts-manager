@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.22 (2025-03-08)
+
+
+### 🐛 Bug Fixes
+
+* avoid zoom on input focus ([9975b28](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/9975b28024f43c9c8ea198bfe0b9a54f4150f7fe))
+
 ## 0.0.21 (2025-03-08)
 
 

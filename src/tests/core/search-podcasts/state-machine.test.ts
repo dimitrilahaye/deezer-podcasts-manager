@@ -115,7 +115,7 @@ describe("Search podcasts state machine", () => {
       await sleep(100);
 
       // Then
-      expect(actor.getSnapshot().value).toEqual("success");
+      expect(actor.getSnapshot().value).toEqual("success_search");
     });
 
     it("should store the service response on success state", async () => {
@@ -313,7 +313,7 @@ describe("Search podcasts state machine", () => {
       await sleep(100);
 
       // Then
-      expect(actor.getSnapshot().value).toEqual("success");
+      expect(actor.getSnapshot().value).toEqual("success_toggle");
     });
 
     it("should have update the podcast on success state", async () => {

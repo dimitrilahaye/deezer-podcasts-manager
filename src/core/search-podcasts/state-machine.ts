@@ -13,7 +13,8 @@ export type States =
   | "idle"
   | "podcasts_loading"
   | "toggle_favorite_loading"
-  | "success"
+  | "success_search"
+  | "success_toggle"
   | "error";
 
 export type Context = StateMachineContext<
@@ -78,7 +79,7 @@ const createStateMachine = (dependencies: Dependencies) =>
             return (event as AnyEventObject).query;
           },
           onDone: {
-            target: "success",
+            target: "success_search",
             actions: {
               type: "updatePodcasts",
               params: ({ event }) => event.output,
@@ -101,7 +102,7 @@ const createStateMachine = (dependencies: Dependencies) =>
             return (event as AnyEventObject).podcast;
           },
           onDone: {
-            target: "success",
+            target: "success_toggle",
             actions: {
               type: "updatePodcast",
               params: ({ event }) => event.output,
@@ -117,7 +118,19 @@ const createStateMachine = (dependencies: Dependencies) =>
           },
         },
       },
-      success: {
+      success_search: {
+        on: {
+          RESET: {
+            target: "idle",
+            actions: {
+              type: "reset",
+            },
+          },
+          SEARCH: "podcasts_loading",
+          TOGGLE: "toggle_favorite_loading",
+        },
+      },
+      success_toggle: {
         on: {
           RESET: {
             target: "idle",

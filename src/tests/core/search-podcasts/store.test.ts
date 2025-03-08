@@ -62,7 +62,7 @@ describe('Podcasts store', () => {
         expect(useStore.getState()).toMatchObject({
             podcasts: foundPodcasts,
             error: null,
-            status: "success",
+            status: "success_search",
         })
 
         // When
@@ -125,7 +125,7 @@ describe('Podcasts store', () => {
             await sleep(100)
 
             // Then
-            expect(useStore.getState().status).toBe('success')
+            expect(useStore.getState().status).toBe('success_search')
         });
 
         it('should update error after a failed search', async () => {
@@ -220,7 +220,7 @@ describe('Podcasts store', () => {
             await sleep(100)
 
             // Then
-            expect(useStore.getState().status).toBe('success')
+            expect(useStore.getState().status).toBe('success_toggle')
         });
 
         it('should update error after a failed toggle', async () => {

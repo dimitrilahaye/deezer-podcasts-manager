@@ -373,6 +373,53 @@ describe("Search page", () => {
       ).toBeInTheDocument();
     });
 
+    test("When click on reset button, page should be reset", async () => {
+      // Given
+      render(
+        <StoresProvider
+          stores={{
+            ...stores,
+            searchPodcasts: createSearchPodcastsStore({
+              ...inMemoryDependencies,
+              podcastsDataSource: {
+                search: Sinon.stub().resolves([
+                  {
+                    id: 123,
+                    available: false,
+                    description: "description",
+                    picture: "picture_medium",
+                    title: "title",
+                    isFavorite: false,
+                  },
+                ]),
+              },
+            }),
+          }}
+        >
+          <Search />
+        </StoresProvider>
+      );
+      await searchForPodcast("Podkassos");
+      const favoritesButton = getFirstResultButton();
+      await act(async () => {
+        await userEvent.click(favoritesButton);
+        await sleep(300);
+      });
+      expect(screen.getByRole("button", { name: "Reset" })).toBeEnabled();
+
+      // When
+      await userEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+      // Then
+      const listItemsAfterReset = screen.queryAllByRole("listitem");
+      expect(listItemsAfterReset).toHaveLength(0);
+      expect(
+        screen.queryByRole("button", {
+          name: "Reset",
+        })
+      ).toBeDisabled();
+    });
+
     test("When click on 'remove podcast from favorites' button, it should display the 'add to favorites' button", async () => {
       // Given
       render(

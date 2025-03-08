@@ -19,7 +19,8 @@ const Search: React.FC = () => {
   };
 
   const submitIsDisabled = () => inputValue.trim().length === 0;
-  const resetIsDisabled = () => !["success_search", "error"].includes(status);
+  const resetIsDisabled = () =>
+    !["success_search", "success_toggle", "error"].includes(status);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

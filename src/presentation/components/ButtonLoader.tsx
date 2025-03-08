@@ -30,7 +30,6 @@ const ButtonLoader: React.FC = () => {
           strokeLinecap="round"
         />
       </svg>
-      <span className="sr-only">Chargement...</span>
     </span>
   );
 };

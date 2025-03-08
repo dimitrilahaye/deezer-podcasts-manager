@@ -63,6 +63,16 @@ textarea {
   font-size: 16px;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+article {
+  padding: 15px;
+}
+
 .ellipsis {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -70,6 +80,10 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 300px;
+}
+
+li.is-favorite {
+  background-color: rgba(255, 192, 203, 0.5);
 }
 
 @media (prefers-color-scheme: light) {

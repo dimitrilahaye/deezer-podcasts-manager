@@ -33,6 +33,8 @@ describe("Search page", () => {
         name: "Podcast",
       })
     ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeDisabled();
     expect(
       screen.queryByRole("button", {
         name: "Search",
@@ -109,6 +111,55 @@ describe("Search page", () => {
       ).toBeInTheDocument();
       expect(within(result).getByText("description")).toBeInTheDocument();
       expect(within(result).getByRole("presentation")).toBeInTheDocument();
+    });
+
+    test("When click on reset button, page should be reset", async () => {
+      // Given
+      render(
+        <StoresProvider
+          stores={{
+            ...stores,
+            searchPodcasts: createSearchPodcastsStore({
+              ...inMemoryDependencies,
+              podcastsDataSource: {
+                search: Sinon.stub().resolves([
+                  {
+                    id: 123,
+                    available: false,
+                    description: "description",
+                    picture: "picture_medium",
+                    title: "title",
+                    isFavorite: false,
+                  },
+                ]),
+              },
+            }),
+          }}
+        >
+          <Search />
+        </StoresProvider>
+      );
+      await searchForPodcast("Podkassos");
+      const listItems = await screen.findAllByRole("listitem");
+      expect(listItems).toHaveLength(1);
+      expect(screen.getByRole("button", { name: "Reset" })).toBeEnabled();
+
+      // When
+      await userEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+      // Then
+      const listItemsAfterReset = screen.queryAllByRole("listitem");
+      expect(listItemsAfterReset).toHaveLength(0);
+      expect(
+        screen.queryByRole("button", {
+          name: "Reset",
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole("textbox", {
+          name: "Podcast",
+        })
+      ).toHaveValue("");
     });
 
     test("When search is successful, non-favorite results should have the button to add to favorite", async () => {
@@ -237,6 +288,7 @@ describe("Search page", () => {
 
       // Then
       expect(screen.queryByText("Deezer error")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Reset" })).toBeEnabled();
     });
   });
 

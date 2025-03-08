@@ -6,16 +6,20 @@ import SearchResult from "../components/Search/SearchResult";
 import ErrorComponent from "../components/Error";
 
 const Search: React.FC = () => {
-  const { status, error, searchPodcast } = useStores("searchPodcasts");
+  const { status, error, searchPodcast, reset } = useStores("searchPodcasts");
   const [inputValue, setInputValue] = useState<string>("");
 
   const displayResult = () => {
-    return ["toggle_favorite_loading", "success_search", "success_toggle", "error"].includes(
-      status
-    );
+    return [
+      "toggle_favorite_loading",
+      "success_search",
+      "success_toggle",
+      "error",
+    ].includes(status);
   };
 
   const submitIsDisabled = () => inputValue.trim().length === 0;
+  const resetIsDisabled = () => !["success_search", "error"].includes(status);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -24,6 +28,11 @@ const Search: React.FC = () => {
   const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     searchPodcast(inputValue);
+  };
+
+  const resetHandler = () => {
+    reset();
+    setInputValue("");
   };
 
   return (
@@ -37,8 +46,16 @@ const Search: React.FC = () => {
           value={inputValue}
           onChange={handleInputChange}
         />
-        <button type="submit" disabled={submitIsDisabled()}>
-          Search
+        <button type="submit" disabled={submitIsDisabled()} aria-label="Search">
+          🔎
+        </button>
+        <button
+          type="button"
+          disabled={resetIsDisabled()}
+          onClick={resetHandler}
+          aria-label="Reset"
+        >
+          🗑️
         </button>
       </form>
       {status === "podcasts_loading" && <Loader />}

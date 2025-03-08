@@ -97,7 +97,8 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
 
       // When
@@ -143,7 +144,8 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
       await searchForPodcast("Podkassos");
       const listItems = await screen.findAllByRole("listitem");
@@ -234,7 +236,8 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
 
       // When
@@ -273,7 +276,8 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
 
       // When
@@ -365,10 +369,11 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
       await searchForPodcast("Podkassos");
-      const favoritesButton = getFirstResultButton();
+      const favoritesButton = getResultButton("add podcast to favorites");
 
       // When
       await userEvent.click(favoritesButton);
@@ -401,10 +406,11 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
       await searchForPodcast("Podkassos");
-      const favoritesButton = getFirstResultButton();
+      const favoritesButton = getResultButton("add podcast to favorites");
 
       // When
       await act(async () => {
@@ -445,10 +451,11 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
       await searchForPodcast("Podkassos");
-      const favoritesButton = getFirstResultButton();
+      const favoritesButton = getResultButton("add podcast to favorites");
       await act(async () => {
         await userEvent.click(favoritesButton);
         await sleep(300);
@@ -492,10 +499,11 @@ describe("Search page", () => {
           }}
         >
           <Search />
-        </StoresProvider>
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
       );
       await searchForPodcast("Podkassos");
-      const favoritesButton = getFirstResultButton();
+      const favoritesButton = getResultButton("remove podcast from favorites");
 
       // When
       await act(async () => {
@@ -526,8 +534,8 @@ async function searchForPodcast(name: string) {
   await userEvent.click(searchButton);
 }
 
-function getFirstResultButton() {
+function getResultButton(name: string) {
   const [result] = screen.getAllByRole("article");
 
-  return within(result).getByRole("button");
+  return within(result).getByRole("button", { name });
 }

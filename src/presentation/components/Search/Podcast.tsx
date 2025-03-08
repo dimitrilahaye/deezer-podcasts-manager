@@ -7,11 +7,19 @@ const PodcastItem: React.FC<{ podcast: Podcast }> = ({ podcast }) => {
 
   const isLoading = () => status === "toggle_favorite_loading";
 
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    podcast: Podcast
+  ) => {
+    togglePodcastFromFavorites(podcast);
+    event.stopPropagation();
+  };
+
   return (
-    <li key={podcast.id}>
+    <li>
       <article>
         <h2>{podcast.title}</h2>
-        <img src={podcast.picture} alt=""/>
+        <img src={podcast.picture} alt="" />
         <p>{podcast.description}</p>
         <div>
           {podcast.isFavorite ? (
@@ -21,7 +29,7 @@ const PodcastItem: React.FC<{ podcast: Podcast }> = ({ podcast }) => {
               disabled={isLoading()}
               aria-busy={isLoading()}
               aria-live="assertive"
-              onClick={() => togglePodcastFromFavorites(podcast)}
+              onClick={(event) => handleClick(event, podcast)}
             >
               {isLoading() ? <ButtonLoader /> : "Retirer de vos favoris"}
             </button>
@@ -29,7 +37,10 @@ const PodcastItem: React.FC<{ podcast: Podcast }> = ({ podcast }) => {
             <button
               type="button"
               aria-label="add podcast to favorites"
-              onClick={() => togglePodcastFromFavorites(podcast)}
+              disabled={isLoading()}
+              aria-busy={isLoading()}
+              aria-live="assertive"
+              onClick={(event) => handleClick(event, podcast)}
             >
               {isLoading() ? <ButtonLoader /> : "Ajouter à vos favoris"}
             </button>

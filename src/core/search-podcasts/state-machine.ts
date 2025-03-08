@@ -1,11 +1,11 @@
 import { type AnyEventObject, assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
-import type PodcastsService from "../ports/podcasts-service";
+import type PodcastsDataSource from "../ports/podcasts-data-source";
 import type { StateMachineContext } from "../types";
 import type { Podcast, Podcasts } from "../models/podcast";
 import type PodcastRepository from "../ports/podcast-repository";
 
 export type Dependencies = {
-  podcastsService: PodcastsService;
+  podcastsDataSource: PodcastsDataSource;
   podcastRepository: PodcastRepository;
 };
 
@@ -41,7 +41,7 @@ const createStateMachine = (dependencies: Dependencies) =>
         podcasts: params,
       })),
       updatePodcast: assign(({ context }, params: Podcast) => ({
-        podcasts: [...context.podcasts.filter((podcast) => podcast.id !== params.id), params],
+        podcasts: [...context.podcasts.filter((podcast) => podcast.id !== params.id), { ...params }],
       })),
       updateError: assign((_, params: string) => ({
         error: params,
@@ -53,7 +53,7 @@ const createStateMachine = (dependencies: Dependencies) =>
     },
     actors: {
       searchPodcasts: fromPromise<Podcasts, string>(
-        async ({ input }) => await dependencies.podcastsService.search(input)
+        async ({ input }) => await dependencies.podcastsDataSource.search(input)
       ),
       toggleFromFavorites: fromPromise<Podcast, Podcast>(
         async ({ input }) =>

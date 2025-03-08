@@ -1,5 +1,5 @@
 import type { Podcasts } from "../models/podcast";
 
-export default interface PodcastsService {
+export default interface PodcastsDataSource {
   search(name: string): Promise<Podcasts>;
 }

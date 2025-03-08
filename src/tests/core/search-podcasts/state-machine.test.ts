@@ -9,7 +9,7 @@ function dependencies(stubs: {
   toggle: sinon.SinonStub;
 }) {
   return {
-    podcastsService: {
+    podcastsDataSource: {
       search: stubs.search,
     },
     podcastRepository: {

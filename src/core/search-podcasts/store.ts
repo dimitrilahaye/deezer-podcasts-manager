@@ -25,7 +25,7 @@ const createStore = (dependencies: Dependencies) => {
   return create<StoreState>((set) => {
     service.subscribe(({ value, context }) => {
       set({
-        podcasts: context.podcasts,
+        podcasts: [...context.podcasts].toSorted((a, b) => a.id - b.id),
         error: context.error,
         status: value as States,
       });

@@ -49,7 +49,12 @@ describe("Search page", () => {
     test("When click on Search button, loading should be display", async () => {
       // Given
       render(
-        <StoresProvider stores={stores}>
+        <StoresProvider
+          stores={{
+            ...stores,
+            searchPodcasts: createSearchPodcastsStore(inMemoryDependencies),
+          }}
+        >
           <Search />
         </StoresProvider>
       );
@@ -73,7 +78,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -114,7 +119,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -153,7 +158,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -192,7 +197,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([]),
               },
             }),
@@ -217,7 +222,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().rejects(new Error("Deezer error")),
               },
             }),
@@ -244,7 +249,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -280,7 +285,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -324,7 +329,7 @@ describe("Search page", () => {
             ...stores,
             searchPodcasts: createSearchPodcastsStore({
               ...inMemoryDependencies,
-              podcastsService: {
+              podcastsDataSource: {
                 search: Sinon.stub().resolves([
                   {
                     id: 123,

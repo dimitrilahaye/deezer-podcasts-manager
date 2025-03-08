@@ -1,14 +1,15 @@
-import { DataService } from "../providers/data-service/DataService";
-import DeezerService from "../providers/deezer/in-memory/deezer-service";
-import IndexedDbPodcastRepository from "../providers/persistence/in-memory/podcast-repository";
+import ApiDeezerDataSource from "../providers/deezer/api/deezer-data-source";
+import InMemoryDeezerDataSource from "../providers/deezer/in-memory/deezer-data-source";
+import InMemoryPodcastRepository from "../providers/persistence/in-memory/podcast-repository";
 
 const inMemoryDependencies = {
-    apiService: new DataService(),
-    podcastsService: new DeezerService(),
-    podcastRepository: new IndexedDbPodcastRepository()
+    podcastsDataSource: new InMemoryDeezerDataSource(),
+    podcastRepository: new InMemoryPodcastRepository()
 };
 
-const dependencies = null;
+const dependencies = {
+    podcastsDataSource: new ApiDeezerDataSource(),
+};
 
 export {
     dependencies,

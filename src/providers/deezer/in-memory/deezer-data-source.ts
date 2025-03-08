@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Podcast, Podcasts } from "../../../core/models/podcast";
-import type PodcastsService from "../../../core/ports/podcasts-service";
+import type PodcastsDataSource from "../../../core/ports/podcasts-data-source";
 import { sleep } from "../../../tests/utils";
 
 type DeezerPodcast = {
@@ -19,7 +19,7 @@ type DeezerPodcast = {
     type: string
 }
 
-export default class DeezerService implements PodcastsService {
+export default class DeezerDataSource implements PodcastsDataSource {
     async search(_name: string): Promise<Podcasts> {
         await sleep(100)
         return [{

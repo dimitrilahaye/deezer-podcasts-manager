@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.21 (2025-03-08)
+
+
+### ✨ Features
+
+* **presentation:** remove example link in nav bar ([d862ac7](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/d862ac7d2f66806ab61590e218b51e810639122b))
+
 ## 0.0.20 (2025-03-08)
 
 

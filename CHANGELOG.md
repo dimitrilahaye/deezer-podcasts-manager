@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.26 (2025-03-08)
+
+
+### 🐛 Bug Fixes
+
+* **presentation:** fix navigate issues on tests ([48a4bcf](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/48a4bcfdfa1f32de9d7db42422c98f2b43009321))
+
 ## 0.0.25 (2025-03-08)
 
 

@@ -12,6 +12,6 @@ export default {
   moduleNameMapper: {
     "\\.(css|less)$": "identity-obj-proxy",
     "^sinon$": "sinon",
-    '^@index/(.*)$': '<rootDir>/$1/'
+    '^@index/(.*)$': '<rootDir>/src/$1/'
   },
 };

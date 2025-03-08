@@ -1,6 +1,5 @@
 import { type AnyEventObject, assign, type ErrorActorEvent, fromPromise, setup } from "xstate";
 import type PodcastsDataSource from "../ports/podcasts-data-source";
-import type { StateMachineContext } from "../types";
 import type { Podcast, Podcasts } from "../models/podcast";
 import type PodcastRepository from "../ports/podcast-repository";
 
@@ -17,13 +16,10 @@ export type States =
   | "success_toggle"
   | "error";
 
-export type Context = StateMachineContext<
-  {
-    podcasts: Podcasts;
-    error: string | null;
-  },
-  Dependencies
->;
+export type Context = {
+  podcasts: Podcasts;
+  error: string | null;
+}
 
 export type Events =
   | { type: "SEARCH"; query: string }
@@ -64,8 +60,7 @@ const createStateMachine = (dependencies: Dependencies) =>
     id: "searchPodcastsStateMachine",
     context: {
       podcasts: [],
-      error: null,
-      dependencies,
+      error: null
     },
     initial: "idle",
     states: {

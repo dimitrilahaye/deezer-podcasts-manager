@@ -38,7 +38,7 @@ describe('Podcasts store', () => {
         sinon.resetHistory()
     });
 
-    it('should have the correct state on start', () => {
+    it('should have the correct default state on start', () => {
         // When
         const useStore = createStore(dependencies({}));
 
@@ -261,6 +261,42 @@ describe('Podcasts store', () => {
 
             // Then
             expect(useStore.getState().status).toBe('error')
+        });
+    })
+
+    describe('Get podcast by id', () => {
+        it('should return the podcast with given id', async () => {
+            // Given
+            const foundPodcast = getFakePodcast({ isFavorite: false })
+            const searchStub = sinon.stub().resolves([foundPodcast])
+            const useStore = createStore(dependencies({
+                search: searchStub
+            }));
+            useStore.getState().searchPodcast('query')
+            await sleep(100)
+
+            // When
+            const podcast = useStore.getState().getPodcast(foundPodcast.id)
+
+            // Then
+            expect(podcast).toStrictEqual(foundPodcast)
+        });
+
+        it('should return the undefined if podcast does not exist', async () => {
+            // Given
+            const foundPodcast = getFakePodcast({ isFavorite: false })
+            const searchStub = sinon.stub().resolves([foundPodcast])
+            const useStore = createStore(dependencies({
+                search: searchStub
+            }));
+            useStore.getState().searchPodcast('query')
+            await sleep(100)
+
+            // When
+            const podcast = useStore.getState().getPodcast(456)
+
+            // Then
+            expect(podcast).toBeUndefined()
         });
     })
 });

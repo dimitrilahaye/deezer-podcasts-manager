@@ -1,3 +1,4 @@
+import "@index/index.css";
 import useStores from "../../hooks/use-stores";
 import PodcastItem from "./Podcast";
 
@@ -8,7 +9,14 @@ const SearchResult: React.FC = () => {
     <ul aria-live="polite" aria-label="result">
       {podcasts.length === 0 && <div>Pas de résultat</div>}
       {podcasts.map((podcast) => {
-        return <PodcastItem key={podcast.id} podcast={podcast} />;
+        return (
+          <li
+            key={podcast.id}
+            className={podcast.isFavorite ? "is-favorite" : ""}
+          >
+            <PodcastItem podcast={podcast} />
+          </li>
+        );
       })}
     </ul>
   );

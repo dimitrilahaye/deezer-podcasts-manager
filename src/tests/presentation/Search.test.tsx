@@ -7,6 +7,7 @@ import createSearchPodcastsStore from "../../core/search-podcasts/store";
 import { inMemoryDependencies } from "../../core/dependencies";
 import Sinon from "sinon";
 import { sleep } from "../utils";
+import { BrowserRouter } from "react-router-dom";
 
 describe("Search page", () => {
   beforeEach(() => Sinon.resetHistory());
@@ -111,6 +112,11 @@ describe("Search page", () => {
       ).toBeInTheDocument();
       expect(within(result).getByText("description")).toBeInTheDocument();
       expect(within(result).getByRole("presentation")).toBeInTheDocument();
+      expect(
+        within(result).getByRole("button", {
+          name: "go to episodes",
+        })
+      ).toBeInTheDocument();
     });
 
     test("When click on reset button, page should be reset", async () => {
@@ -160,6 +166,48 @@ describe("Search page", () => {
           name: "Podcast",
         })
       ).toHaveValue("");
+    });
+
+    test("When click on 'go to episode' button, it should be redirected to podcast detail page", async () => {
+      // Given
+      render(
+        <StoresProvider
+          stores={{
+            ...stores,
+            searchPodcasts: createSearchPodcastsStore({
+              ...inMemoryDependencies,
+              podcastsDataSource: {
+                search: Sinon.stub().resolves([
+                  {
+                    id: 123,
+                    available: false,
+                    description: "description",
+                    picture: "picture_medium",
+                    title: "title",
+                    isFavorite: false,
+                  },
+                ]),
+              },
+            }),
+          }}
+        >
+          <Search />
+        </StoresProvider>,
+        { wrapper: BrowserRouter }
+      );
+      await searchForPodcast("Podkassos");
+      const listItems = await screen.findAllByRole("listitem");
+      expect(listItems).toHaveLength(1);
+      const [result] = screen.queryAllByRole("article");
+      const goToEpisodesButton = within(result).getByRole("button", {
+        name: "go to episodes",
+      });
+
+      // When
+      await userEvent.click(goToEpisodesButton);
+
+      // Then
+      expect(window.location.pathname).toBe("/podcast/123");
     });
 
     test("When search is successful, non-favorite results should have the button to add to favorite", async () => {

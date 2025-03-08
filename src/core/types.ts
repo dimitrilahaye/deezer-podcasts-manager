@@ -6,16 +6,6 @@ import type { UseBoundStore, StoreApi } from "zustand";
 export type DpmStore<StoreState> = UseBoundStore<StoreApi<StoreState>>;
 
 /**
- * Used to declare the context of a state machine
- *
- * - `Context`: this specific state machine context definition
- * - `Dependencies`: the definition of the external dependencies used by this state machine
- */
-export type StateMachineContext<Context, Dependencies> = Context & {
-  dependencies: Dependencies;
-};
-
-/**
  * Used to declare the State type of a store
  *
  * - `StateMachineStates`: the transitionnal states of the related state machine

@@ -14,6 +14,7 @@ export type StoreState = StoreStateFromStateMachineContext<
   {
     searchPodcast(query: string): void,
     togglePodcastFromFavorites(podcast: Podcast): void
+    getPodcast(id: number): Podcast | undefined
     reset(): void
   }
 >;
@@ -22,7 +23,7 @@ const createStore = (dependencies: Dependencies) => {
   const dataMachine = createStateMachine(dependencies);
   const service = createActor(dataMachine);
 
-  return create<StoreState>((set) => {
+  return create<StoreState>((set, get) => {
     service.subscribe(({ value, context }) => {
       set({
         podcasts: [...context.podcasts].toSorted((a, b) => a.id - b.id),
@@ -37,6 +38,7 @@ const createStore = (dependencies: Dependencies) => {
       podcasts: [],
       error: null,
       status: "idle",
+      getPodcast: (id: number) => get().podcasts.find((podcast) => podcast.id === id),
       searchPodcast: (query: string) => service.send({ type: "SEARCH", query }),
       togglePodcastFromFavorites: (podcast: Podcast) => service.send({ type: "TOGGLE", podcast }),
       reset: () => service.send({ type: "RESET" }),

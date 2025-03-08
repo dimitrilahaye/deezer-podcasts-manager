@@ -28,7 +28,7 @@ const Search: React.FC = () => {
 
   return (
     <>
-      <h1>Rechercher vos podcasts</h1>
+      <h2>Rechercher vos podcasts</h2>
       <form aria-label="Recherche" onSubmit={searchHandler}>
         <label htmlFor="podcast">Podcast</label>
         <input

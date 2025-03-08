@@ -19,7 +19,7 @@ describe("Search page", () => {
     // Then
     expect(
       screen.queryByRole("heading", {
-        level: 1,
+        level: 2,
         name: "Rechercher vos podcasts",
       })
     ).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe("Search page", () => {
       expect(listItems).toHaveLength(1);
       const [result] = screen.queryAllByRole("article");
       expect(
-        within(result).queryByRole("heading", { level: 2, name: "title" })
+        within(result).queryByRole("heading", { level: 3, name: "title" })
       ).toBeInTheDocument();
       expect(within(result).getByText("description")).toBeInTheDocument();
       expect(within(result).getByRole("presentation")).toBeInTheDocument();

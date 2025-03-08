@@ -21,7 +21,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "paths": {
+      "@index/*": ["./*"]
+    }
   },
   "include": ["src"]
 }

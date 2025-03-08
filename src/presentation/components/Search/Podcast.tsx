@@ -1,3 +1,4 @@
+import "@index/index.css";
 import type { Podcast } from "../../../core/models/podcast";
 import useStores from "../../hooks/use-stores";
 import ButtonLoader from "../ButtonLoader";
@@ -18,9 +19,9 @@ const PodcastItem: React.FC<{ podcast: Podcast }> = ({ podcast }) => {
   return (
     <li>
       <article>
-        <h2>{podcast.title}</h2>
+        <h3>{podcast.title}</h3>
         <img src={podcast.picture} alt="" />
-        <p>{podcast.description}</p>
+        <p className="ellipsis">{podcast.description}</p>
         <div>
           {podcast.isFavorite ? (
             <button

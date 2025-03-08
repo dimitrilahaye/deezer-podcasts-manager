@@ -1,10 +1,16 @@
 import { defineConfig } from "vite";
+import path from 'node:path'
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
   assetsInclude: ['**/*.svg', '**/*.png'],
+  resolve: {
+    alias: {
+      "@index": path.resolve(__dirname, "src"),
+    },
+  },
   plugins: [
     react(),
     VitePWA({

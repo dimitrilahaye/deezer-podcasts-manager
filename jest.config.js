@@ -11,6 +11,7 @@ export default {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
     "\\.(css|less)$": "identity-obj-proxy",
-    "^sinon$": "sinon"
+    "^sinon$": "sinon",
+    '^@index/(.*)$': '<rootDir>/$1/'
   },
 };

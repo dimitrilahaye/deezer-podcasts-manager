@@ -1,17 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./presentation/pages/Home";
-import Navbar from "./presentation/components/Navbar";
 import Search from "./presentation/pages/Search";
+import MainLayout from "./presentation/layouts/MainLayout";
 
 const App = () => {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
         <Route path="/search" element={<Search />} />
-      </Routes>
-    </>
+      </Route>
+    </Routes>
   );
 };
 

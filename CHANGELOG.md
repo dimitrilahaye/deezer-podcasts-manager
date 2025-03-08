@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.24 (2025-03-08)
+
+
+### ✨ Features
+
+* **presentation:** add logic for favorites button and reset ([91bed80](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/91bed80f9c57bfccf05555d947bae90893640c8a))
+
 ## 0.0.23 (2025-03-08)
 
 

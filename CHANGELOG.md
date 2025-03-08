@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.0.23 (2025-03-08)
+
+
+### ✨ Features
+
+* **presentation:** add main layout ([75b9a46](https://github.com/dimitrilahaye/deezer-podcasts-manager/commit/75b9a46a430b8d9e9cb2cd9ff1b6dbbd89a9e983))
+
 ## 0.0.22 (2025-03-08)
 
 

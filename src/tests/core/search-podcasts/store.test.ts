@@ -1,34 +1,7 @@
 import sinon from "sinon";
 import createStore from "../../../core/search-podcasts/store";
 import { sleep } from "../../utils";
-
-function dependencies({
-    search = sinon.stub(),
-    toggle = sinon.stub(),
-}: {
-    search?: sinon.SinonStub;
-    toggle?: sinon.SinonStub;
-}) {
-    return {
-        podcastsDataSource: {
-            search,
-        },
-        podcastRepository: {
-            toggleFromFavorites: toggle,
-        },
-    };
-}
-
-function getFakePodcast(data: { isFavorite: boolean }) {
-    return {
-        id: 1,
-        title: "title",
-        description: "description",
-        available: true,
-        picture: "picture",
-        isFavorite: data.isFavorite,
-    }
-}
+import { fakePodcast, mockDependencies } from "@index/tests/mocks";
 
 describe('Podcasts store', () => {
     beforeEach(() => {
@@ -40,7 +13,7 @@ describe('Podcasts store', () => {
 
     it('should have the correct default state on start', () => {
         // When
-        const useStore = createStore(dependencies({}));
+        const useStore = createStore(mockDependencies({}));
 
         // Then
         expect(useStore.getState()).toMatchObject({
@@ -52,9 +25,9 @@ describe('Podcasts store', () => {
 
     it('should reset store state after a reset', async () => {
         // Given
-        const foundPodcasts = [getFakePodcast({ isFavorite: false })]
+        const foundPodcasts = [fakePodcast({ isFavorite: false })]
         const searchStub = sinon.stub().resolves(foundPodcasts)
-        const useStore = createStore(dependencies({
+        const useStore = createStore(mockDependencies({
             search: searchStub
         }));
         useStore.getState().searchPodcast('query')
@@ -80,9 +53,9 @@ describe('Podcasts store', () => {
     describe('Search podcasts', () => {
         it('should have the loading state on search', async () => {
             // Given
-            const foundPodcasts = [getFakePodcast({ isFavorite: false })]
+            const foundPodcasts = [fakePodcast({ isFavorite: false })]
             const searchStub = sinon.stub().resolves(foundPodcasts)
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
 
@@ -95,9 +68,9 @@ describe('Podcasts store', () => {
 
         it('should update podcasts list after a successful search', async () => {
             // Given
-            const foundPodcasts = [getFakePodcast({ isFavorite: false })]
+            const foundPodcasts = [fakePodcast({ isFavorite: false })]
             const searchStub = sinon.stub().resolves(foundPodcasts)
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
 
@@ -114,9 +87,9 @@ describe('Podcasts store', () => {
 
         it('should be on success state after a successful search', async () => {
             // Given
-            const foundPodcasts = [getFakePodcast({ isFavorite: false })]
+            const foundPodcasts = [fakePodcast({ isFavorite: false })]
             const searchStub = sinon.stub().resolves(foundPodcasts)
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
 
@@ -131,7 +104,7 @@ describe('Podcasts store', () => {
         it('should update error after a failed search', async () => {
             // Given
             const searchStub = sinon.stub().rejects(new Error('error'))
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
 
@@ -148,7 +121,7 @@ describe('Podcasts store', () => {
         it('should be on error state after a failed search', async () => {
             // Given
             const searchStub = sinon.stub().rejects(new Error('error'))
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
 
@@ -164,10 +137,10 @@ describe('Podcasts store', () => {
     describe('Toggle podcast from favorites', () => {
         it('should have the loading state on toggle', async () => {
             // Given
-            const useStore = createStore(dependencies({}));
+            const useStore = createStore(mockDependencies({}));
 
             // When
-            useStore.getState().togglePodcastFromFavorites(getFakePodcast({ isFavorite: false }))
+            useStore.getState().togglePodcastFromFavorites(fakePodcast({ isFavorite: false }))
 
             // Then
             expect(useStore.getState().status).toBe('toggle_favorite_loading')
@@ -175,14 +148,14 @@ describe('Podcasts store', () => {
 
         it('should update podcast after a successful toggle', async () => {
             // Given
-            const returnedPodcast = getFakePodcast({ isFavorite: false })
+            const returnedPodcast = fakePodcast({ isFavorite: false })
             const toggleStub = sinon.stub().resolves({
                 ...returnedPodcast,
                 isFavorite: true
             })
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: sinon.stub().resolves([returnedPodcast]),
-                toggle: toggleStub
+                toggleFromFavorites: toggleStub
             }));
 
             // When
@@ -203,14 +176,14 @@ describe('Podcasts store', () => {
 
         it('should be on success state after a successful toggle', async () => {
             // Given
-            const returnedPodcast = getFakePodcast({ isFavorite: false })
+            const returnedPodcast = fakePodcast({ isFavorite: false })
             const toggleStub = sinon.stub().resolves({
                 ...returnedPodcast,
                 isFavorite: true
             })
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: sinon.stub().resolves([returnedPodcast]),
-                toggle: toggleStub
+                toggleFromFavorites: toggleStub
             }));
 
             // When
@@ -225,11 +198,11 @@ describe('Podcasts store', () => {
 
         it('should update error after a failed toggle', async () => {
             // Given
-            const returnedPodcast = getFakePodcast({ isFavorite: false })
+            const returnedPodcast = fakePodcast({ isFavorite: false })
             const toggleStub = sinon.stub().rejects(new Error('error'))
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: sinon.stub().resolves([returnedPodcast]),
-                toggle: toggleStub
+                toggleFromFavorites: toggleStub
             }));
 
             // When
@@ -246,11 +219,11 @@ describe('Podcasts store', () => {
 
         it('should be on error state after a failed toggle', async () => {
             // Given
-            const returnedPodcast = getFakePodcast({ isFavorite: false })
+            const returnedPodcast = fakePodcast({ isFavorite: false })
             const toggleStub = sinon.stub().rejects(new Error('error'))
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: sinon.stub().resolves([returnedPodcast]),
-                toggle: toggleStub
+                toggleFromFavorites: toggleStub
             }));
 
             // When
@@ -267,9 +240,9 @@ describe('Podcasts store', () => {
     describe('Get podcast by id', () => {
         it('should return the podcast with given id', async () => {
             // Given
-            const foundPodcast = getFakePodcast({ isFavorite: false })
+            const foundPodcast = fakePodcast({ isFavorite: false })
             const searchStub = sinon.stub().resolves([foundPodcast])
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
             useStore.getState().searchPodcast('query')
@@ -284,9 +257,9 @@ describe('Podcasts store', () => {
 
         it('should return the undefined if podcast does not exist', async () => {
             // Given
-            const foundPodcast = getFakePodcast({ isFavorite: false })
+            const foundPodcast = fakePodcast({ isFavorite: false })
             const searchStub = sinon.stub().resolves([foundPodcast])
-            const useStore = createStore(dependencies({
+            const useStore = createStore(mockDependencies({
                 search: searchStub
             }));
             useStore.getState().searchPodcast('query')

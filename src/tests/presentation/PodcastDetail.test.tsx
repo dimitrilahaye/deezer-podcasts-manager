@@ -3,10 +3,10 @@ import PodcastDetail from "@index/presentation/pages/PodcastDetail";
 import createStore from "@index/core/search-podcasts/store";
 import { stores } from "@index/core/stores";
 import { StoresProvider } from "@index/stores-provider";
-import { inMemoryDependencies } from "@index/core/dependencies";
 import Sinon from "sinon";
 import { sleep } from "../utils";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { mockDependencies } from "../mocks";
 
 describe("Podcast details page", () => {
   test("When display podcast detail page, it should display elements", async () => {
@@ -19,12 +19,11 @@ describe("Podcast details page", () => {
       picture: "picture",
       isFavorite: true,
     };
-    const store = createStore({
-      ...inMemoryDependencies,
-      podcastsDataSource: {
+    const store = createStore(
+      mockDependencies({
         search: Sinon.stub().resolves([podcast]),
-      },
-    });
+      })
+    );
     store.getState().searchPodcast(podcast.title);
     await sleep(100);
 

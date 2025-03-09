@@ -8,6 +8,7 @@ import { inMemoryDependencies } from "../../core/dependencies";
 import Sinon from "sinon";
 import { sleep } from "../utils";
 import { BrowserRouter } from "react-router-dom";
+import { mockDependencies } from "../mocks";
 
 describe("Search page", () => {
   beforeEach(() => Sinon.resetHistory());
@@ -79,9 +80,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -92,8 +92,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -126,9 +126,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -139,8 +138,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -176,9 +175,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -189,8 +187,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -218,9 +216,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -231,8 +228,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -258,9 +255,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -271,8 +267,8 @@ describe("Search page", () => {
                     isFavorite: true,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -298,12 +294,11 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -323,12 +318,11 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().rejects(new Error("Deezer error")),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -351,9 +345,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -364,8 +357,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -388,9 +381,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -401,8 +393,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -433,9 +425,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -446,8 +437,8 @@ describe("Search page", () => {
                     isFavorite: false,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />
@@ -481,9 +472,8 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore({
-              ...inMemoryDependencies,
-              podcastsDataSource: {
+            searchPodcasts: createSearchPodcastsStore(
+              mockDependencies({
                 search: Sinon.stub().resolves([
                   {
                     id: 123,
@@ -494,8 +484,8 @@ describe("Search page", () => {
                     isFavorite: true,
                   },
                 ]),
-              },
-            }),
+              })
+            ),
           }}
         >
           <Search />

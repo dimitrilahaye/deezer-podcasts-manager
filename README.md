@@ -13,9 +13,9 @@ No login required, data is persisted locally with IndexedDB 🚀
 ## TODO
 
 - [x] Bootstraping
-- [ ] Search for podcasts
-- [ ] Add a podcast to your favorites
-- [ ] Remove a podcast from your favorites
+- [x] Search for podcasts
+- [x] Add a podcast to your favorites
+- [x] Remove a podcast from your favorites
 - [ ] Add episodes to your playlist
 - [ ] Redirect to Deezer by clicking on an episode
 - [ ] Mark an episode as read / unread

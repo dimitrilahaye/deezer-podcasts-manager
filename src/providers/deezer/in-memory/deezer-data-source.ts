@@ -2,22 +2,7 @@
 import type { Podcast, Podcasts } from "../../../core/models/podcast";
 import type PodcastsDataSource from "../../../core/ports/podcasts-data-source";
 import { sleep } from "../../../tests/utils";
-
-type DeezerPodcast = {
-    id: number
-    title: string
-    description: string
-    available: boolean
-    fans: number
-    link: string
-    share: string
-    picture: string
-    picture_small: string
-    picture_medium: string
-    picture_big: string
-    picture_xl: string
-    type: string
-}
+import type { DeezerPodcast } from "../api/deezer-data-source";
 
 export default class DeezerDataSource implements PodcastsDataSource {
     async search(_name: string): Promise<Podcasts> {

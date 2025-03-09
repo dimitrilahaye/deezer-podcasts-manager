@@ -1,7 +1,7 @@
 import type { Podcast, Podcasts } from "../../../core/models/podcast";
 import type PodcastsDataSource from "../../../core/ports/podcasts-data-source";
 
-type DeezerPodcast = {
+export type DeezerPodcast = {
     id: number
     title: string
     description: string

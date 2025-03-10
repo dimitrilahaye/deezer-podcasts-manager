@@ -1,19 +1,19 @@
 import { inMemoryDependencies } from "@index/core/dependencies";
+import type sinon from "sinon"
 
 function mockDependencies(mocks?: {
     search?: sinon.SinonStub;
+    getEpisodes?: sinon.SinonStub;
     toggleFromFavorites?: sinon.SinonStub;
 }) {
     return {
-        ...inMemoryDependencies,
         podcastsDataSource: {
-            ...inMemoryDependencies.podcastsDataSource,
             search: mocks?.search ?? inMemoryDependencies.podcastsDataSource.search,
+            getEpisodes: mocks?.getEpisodes ?? inMemoryDependencies.podcastsDataSource.getEpisodes,
         },
         podcastRepository: {
-            ...inMemoryDependencies.podcastRepository,
-            toggleFromFavorites: mocks?.toggleFromFavorites 
-            ?? inMemoryDependencies.podcastRepository.toggleFromFavorites,
+            toggleFromFavorites: mocks?.toggleFromFavorites
+                ?? inMemoryDependencies.podcastRepository.toggleFromFavorites,
         },
     };
 }

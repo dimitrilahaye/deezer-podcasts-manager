@@ -4,7 +4,7 @@ import useStores from "../hooks/use-stores";
 import ButtonLoader from "./ButtonLoader";
 
 const AddToFavoritesButton: React.FC<{ podcast: Podcast }> = ({ podcast }) => {
-  const { status, togglePodcastFromFavorites } = useStores("searchPodcasts");
+  const { status, togglePodcastFromFavorites } = useStores("podcasts");
 
   const isLoading = () => status === "toggle_favorite_loading";
 

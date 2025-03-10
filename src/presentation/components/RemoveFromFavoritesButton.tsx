@@ -6,7 +6,7 @@ import ButtonLoader from "./ButtonLoader";
 const RemoveFromFavoritesButton: React.FC<{ podcast: Podcast }> = ({
   podcast,
 }) => {
-  const { status, togglePodcastFromFavorites } = useStores("searchPodcasts");
+  const { status, togglePodcastFromFavorites } = useStores("podcasts");
 
   const isLoading = () => status === "toggle_favorite_loading";
 

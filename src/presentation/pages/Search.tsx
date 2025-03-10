@@ -6,7 +6,7 @@ import SearchResult from "../components/Search/SearchResult";
 import ErrorComponent from "../components/Error";
 
 const Search: React.FC = () => {
-  const { status, error, searchPodcast, reset } = useStores("searchPodcasts");
+  const { status, error, searchPodcast, reset } = useStores("podcasts");
   const [inputValue, setInputValue] = useState<string>("");
 
   const displayResult = () => {

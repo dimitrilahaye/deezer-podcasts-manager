@@ -56,7 +56,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(inMemoryDependencies),
+            podcasts: createSearchPodcastsStore(inMemoryDependencies),
           }}
         >
           <Search />
@@ -80,7 +80,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -126,7 +126,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -175,7 +175,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -216,7 +216,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -255,7 +255,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -294,7 +294,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([]),
               })
@@ -318,7 +318,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().rejects(new Error("Deezer error")),
               })
@@ -345,7 +345,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -381,7 +381,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -425,7 +425,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {
@@ -472,7 +472,7 @@ describe("Search page", () => {
         <StoresProvider
           stores={{
             ...stores,
-            searchPodcasts: createSearchPodcastsStore(
+            podcasts: createSearchPodcastsStore(
               mockDependencies({
                 search: Sinon.stub().resolves([
                   {

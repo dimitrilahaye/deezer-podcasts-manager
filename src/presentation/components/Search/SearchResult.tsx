@@ -3,7 +3,7 @@ import useStores from "../../hooks/use-stores";
 import PodcastItem from "./Podcast";
 
 const SearchResult: React.FC = () => {
-  const { podcasts } = useStores("searchPodcasts");
+  const { podcasts } = useStores("podcasts");
 
   return (
     <ul aria-live="polite" aria-label="result">
